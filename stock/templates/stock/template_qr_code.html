@@ -6,21 +6,14 @@ Print QR Code
 
 {% block style %}
 <style>
-    html,
-    body {
-        margin: 0;
-        width: 21cm;
-        height: 16.5cm;
-    }
-
     .label {
-        width: 37mm;
-        height: 24mm;
-        padding: 6px;
-        margin-right: 4mm;
-        margin-bottom: 3mm;
+        width: 52mm;
+        height: 34mm;
+        padding: 2mm;
+        margin-right: 5mm;
+        margin-bottom: 4mm;
         text-align: center;
-        /* border-style: solid; */
+        border-style: solid;
         float: left;
     }
 
@@ -51,7 +44,7 @@ Print QR Code
                     <p>`+ purchase.item_name + `</p>
                 </div>
             `)
-            $("#qrcode" + j).qrcode({ width: 75, height: 75, text: purchase.item });
+            $("#qrcode" + j).qrcode({ width: 70, height: 70, text: purchase.item });
             j++;
         }
     })
