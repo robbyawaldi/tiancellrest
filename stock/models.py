@@ -5,6 +5,10 @@ class Item(models.Model):
     name = models.CharField(max_length=30)
     price = models.FloatField()
 
+    def stock(self):
+        queryset = Purchase.objects.filter(item=self)
+        return sum(p.qty - p.sold() for p in queryset if not p.stock_out())
+
     def __str__(self):
         return self.name
 
@@ -31,7 +35,7 @@ class Purchase(models.Model):
             self.date.strftime('%d-%m-%Y'),
             self.item
         )
-    
+
 
 class Sale(models.Model):
     purchase = models.ForeignKey(

@@ -3,29 +3,14 @@ from stock.models import Item, Purchase, Sale
 
 
 class ItemSerializer(serializers.HyperlinkedModelSerializer):
-    purchases = serializers.SerializerMethodField()
+    stock = serializers.SerializerMethodField()
 
-    def get_purchases(self, item):
-        queryset = Purchase.objects.filter(item=item).order_by('date')
-        purchases_id = [p.id for p in queryset if not p.stock_out()]
-        queryset = Purchase.objects.filter(id__in=purchases_id)
-        serializer = PurchaseItemSerializer(
-            queryset, many=True, context=self.context)
-        return serializer.data
+    def get_stock(self, item):
+        return item.stock()
 
     class Meta:
         model = Item
-        fields = ('url', 'id', 'name', 'price', 'purchases')
-
-class PurchaseItemSerializer(serializers.HyperlinkedModelSerializer):
-    sold = serializers.SerializerMethodField()
-
-    def get_sold(self, obj):
-        return obj.sold()
-
-    class Meta:
-        model = Purchase
-        fields = ('url', 'qty', 'sold')
+        fields = ('url', 'id', 'name', 'price', 'stock')
 
 
 class PurchaseSerializer(serializers.HyperlinkedModelSerializer):
