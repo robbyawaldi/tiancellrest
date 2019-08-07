@@ -1,28 +1,39 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Print QR Code
+Print Barcode
 {% endblock title %}
 
 {% block style %}
 <style>
-    .label {
-        width: 52mm;
-        height: 34mm;
-        padding: 2mm;
-        margin-right: 5mm;
-        margin-bottom: 4mm;
-        text-align: center;
-        border-style: solid;
-        float: left;
+    @media print {
+        @page {
+            size: A4;
+            margin-top: 7mm;
+            margin-right: 6.5mm;
+            margin-left: 5mm;
+            margin-bottom: 100mm;
+        }
     }
 
-    .qrcode {
-        float: right;
+    .label {
+        padding: 3mm;
+        text-align: center;
+        /* border-style: solid;
+        border-width: 1px;
+        border-radius: 5px; */
+    }
+
+    #label-list {
+        display: grid;
+        grid-template-columns: repeat(5, 37mm);
+        grid-template-rows: repeat(6, 24mm);
+        grid-column-gap: 3.5mm;
+        grid-row-gap: 2mm;
     }
 
     p {
-        font-size: 12px;
+        font-size: 14px;
     }
 </style>
 {% endblock style %}
@@ -40,11 +51,15 @@ Print QR Code
         for (let i = 0; i < purchase.qty; i++) {
             $('#label-list').append(`
                 <div class="label">
-                    <div class="qrcode" id="qrcode` + j + `"></div>
+                    <svg class="barcode" id="barcode` + j + `"></svg>
                     <p>`+ purchase.item_name + `</p>
                 </div>
-            `)
-            $("#qrcode" + j).qrcode({ width: 70, height: 70, text: purchase.item });
+            `);
+            JsBarcode("#barcode" + j, purchase.item, {
+                width: 2,
+                height: 20,
+                displayValue: false
+            });
             j++;
         }
     })
