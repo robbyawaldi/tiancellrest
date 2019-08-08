@@ -32,8 +32,8 @@ Print Barcode
         grid-row-gap: 2mm;
     }
 
-    p {
-        font-size: 14px;
+    .name {
+        font-size: 10px;
     }
 </style>
 {% endblock style %}
@@ -51,8 +51,8 @@ Print Barcode
         for (let i = 0; i < purchase.qty; i++) {
             $('#label-list').append(`
                 <div class="label">
+                    <div class="name">`+ purchase.item_name + `</div>
                     <svg class="barcode" id="barcode` + j + `"></svg>
-                    <p>`+ purchase.item_name + `</p>
                 </div>
             `);
             JsBarcode("#barcode" + j, purchase.item, {
