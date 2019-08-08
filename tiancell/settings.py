@@ -26,10 +26,9 @@ SECRET_KEY = 'pyvuero0vz5+w3ut66f%l)hb8s_e-jlxh=g-d-!-!0=*lssma0'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.1.7',
     '192.168.1.6',
     'localhost'
-    ]
+]
 
 
 # Application definition
