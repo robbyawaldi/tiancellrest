@@ -1,67 +1,67 @@
-{% extends 'base.html' %}
+<!doctype html>
+<html lang="en">
 
-{% block title %}
-Print Barcode
-{% endblock title %}
-
-{% block style %}
-<style>
-    @media print {
-        @page {
-            size: A4;
-            margin-top: 7mm;
-            margin-right: 6.5mm;
-            margin-left: 5mm;
-            margin-bottom: 100mm;
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Barcode</title>
+    <style>
+        @media print {
+            @page {
+                size: A4;
+                margin-top: 7mm;
+                margin-right: 6.5mm;
+                margin-left: 5mm;
+                margin-bottom: 100mm;
+            }
         }
-    }
 
-    .label {
-        padding: 3mm;
-        text-align: center;
-        /* border-style: solid;
-        border-width: 1px;
-        border-radius: 5px; */
-    }
-
-    #label-list {
-        display: grid;
-        grid-template-columns: repeat(5, 37mm);
-        grid-template-rows: repeat(6, 24mm);
-        grid-column-gap: 3.5mm;
-        grid-row-gap: 2mm;
-    }
-
-    .name {
-        font-size: 10px;
-    }
-</style>
-{% endblock style %}
-
-{% block content %}
-<div id="label-list">
-</div>
-{% endblock content %}
-
-{% block script %}
-<script>
-    var purchases = JSON.parse('{{purchases|safe}}');
-    var j = 0;
-    $.each(purchases, function (key, purchase) {
-        for (let i = 0; i < purchase.qty; i++) {
-            $('#label-list').append(`
-                <div class="label">
-                    <div class="name">`+ purchase.item_name + `</div>
-                    <svg class="barcode" id="barcode` + j + `"></svg>
-                </div>
-            `);
-            JsBarcode("#barcode" + j, purchase.item, {
-                width: 2,
-                height: 20,
-                displayValue: false
-            });
-            j++;
+        .label {
+            padding: 3mm;
+            text-align: center;
+            /* border-style: solid;
+            border-width: 1px;
+            border-radius: 5px; */
         }
-    })
-</script>
-{% endblock script %}
+
+        #label-list {
+            display: grid;
+            grid-template-columns: repeat(5, 37mm);
+            grid-template-rows: repeat(6, 24mm);
+            grid-column-gap: 3.5mm;
+            grid-row-gap: 2mm;
+        }
+
+        .name {
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="label-list"></div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+
+    <script>
+        var purchases = JSON.parse('{{purchases|safe}}');
+        var j = 0;
+        $.each(purchases, function (key, purchase) {
+            for (let i = 0; i < purchase.qty; i++) {
+                $('#label-list').append(`
+                    <div class="label">
+                        <div class="name">`+ purchase.item_name + `</div>
+                        <svg class="barcode" id="barcode` + j + `"></svg>
+                    </div>
+                `);
+                JsBarcode("#barcode" + j, purchase.item, {
+                    width: 2,
+                    height: 20,
+                    displayValue: false
+                });
+                j++;
+            }
+        })
+    </script>
+</body>
