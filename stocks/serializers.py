@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from stock.models import Item, Purchase, Sale
+from stocks.models import Item, Purchase, Sale
 
 
 class ItemSerializer(serializers.ModelSerializer):

@@ -1,8 +1,8 @@
 import json
 from django.template.response import TemplateResponse
 from django.contrib import admin
-from stock.models import Item, Purchase, Sale
-from stock.serializers import PurchaseSerializer
+from stocks.models import Item, Purchase, Sale
+from stocks.serializers import PurchaseSerializer
 
 def cetak_qr_code(modeladmin, request, queryset):
     purchases = []

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from stock.models import Item, Purchase, Sale
-from stock.serializers import ItemSerializer, PurchaseSerializer, SaleSerializer
+from stocks.models import Item, Purchase, Sale
+from stocks.serializers import ItemSerializer, PurchaseSerializer, SaleSerializer
 
 
 class ItemViewSet(viewsets.ModelViewSet):
