@@ -14,7 +14,7 @@ class Item(models.Model):
         return sum(p.qty - p.sold() for p in self.purchases())
 
     def __str__(self):
-        return self.name
+        return '%s / price:%d' % (self.name, self.price)
 
 
 class Purchase(models.Model):
@@ -37,10 +37,11 @@ class Purchase(models.Model):
         return self.sold() >= self.qty
 
     def __str__(self):
-        return '%d. %s: %s' % (
-            self.id,
+        return '%s / %s / cost:%d / qty:%d' % (
             self.date.strftime('%d-%m-%Y'),
-            self.item
+            self.item,
+            self.cost,
+            self.qty,
         )
 
 
@@ -54,9 +55,9 @@ class Sale(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s: %s, purchase_id:%d, price:%d, qty:%d' % (
+        return '%s / %s / price:%d / qty:%d' % (
             self.date.strftime('%Y-%m-%d %H:%M'),
-            self.purchase.item,
-            self.purchase.id,
-            self.price, self.qty
+            self.purchase.item.name,
+            self.price, 
+            self.qty
         )
