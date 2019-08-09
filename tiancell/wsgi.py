@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tiancellrest.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tiancell.settings')
 
 application = get_wsgi_application()
