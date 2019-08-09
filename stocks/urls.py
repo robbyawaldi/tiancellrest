@@ -8,6 +8,5 @@ router.register(r'purchases', PurchaseViewSet)
 router.register(r'sales', SaleViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls')),
+    path('', include(router.urls)),
 ]
