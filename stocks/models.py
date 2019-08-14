@@ -14,7 +14,10 @@ class Item(models.Model):
         return sum(p.qty - p.sold() for p in self.purchases())
 
     def __str__(self):
-        return '%s / price:%d' % (self.name, self.price)
+        return '%s / price:%d / stock:%d' % (self.name, self.price, self.stock())
+    
+    class Meta:
+        ordering = ['name']
 
 
 class Purchase(models.Model):
