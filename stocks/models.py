@@ -42,7 +42,7 @@ class Purchase(models.Model):
     def __str__(self):
         return '%s / %s / cost:%d / qty:%d' % (
             self.date.strftime('%d-%m-%Y'),
-            self.item,
+            self.item.name,
             self.cost,
             self.qty,
         )
