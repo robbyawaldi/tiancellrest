@@ -33,6 +33,14 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
 
 class SaleSerializer(serializers.ModelSerializer):
+    cost = serializers.SerializerMethodField()
+    profit = serializers.SerializerMethodField()
+
+    def get_cost(self, sale):
+        return sale.purchase.cost
+
+    def get_profit(self, sale):
+        return (sale.price - self.get_cost(sale)) * sale.qty
 
     def create(self, sale):
         purchase = sale['purchase']
@@ -49,4 +57,4 @@ class SaleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sale
-        fields = ('id', 'purchase', 'price', 'qty', 'date')
+        fields = ('id', 'purchase', 'cost', 'price', 'qty', 'profit', 'date')
