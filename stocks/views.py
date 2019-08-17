@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from stocks.models import Item, Purchase, Sale
 from stocks.serializers import ItemSerializer, PurchaseSerializer, SaleSerializer
-
+from stocks.filters import SaleFilter
 
 class ItemViewSet(viewsets.ModelViewSet):
     serializer_class = ItemSerializer
@@ -16,4 +16,4 @@ class PurchaseViewSet(viewsets.ModelViewSet):
 class SaleViewSet(viewsets.ModelViewSet):
     serializer_class = SaleSerializer
     queryset = Sale.objects.all()
-    filterset_fields = ['date']
+    filter_class = SaleFilter
