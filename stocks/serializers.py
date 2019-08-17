@@ -10,7 +10,7 @@ class ItemSerializer(serializers.ModelSerializer):
         return item.stock()
 
     def get_currentpurchase(self, item):
-        return item.purchases()[0].id if item.stock() else None
+        return item.currentpurchase()
 
     class Meta:
         model = Item
@@ -38,13 +38,13 @@ class SaleSerializer(serializers.ModelSerializer):
     net_profit = serializers.SerializerMethodField()
 
     def get_cost(self, sale):
-        return sale.purchase.cost
+        return sale.cost()
 
     def get_gross_profit(self, sale):
-        return sale.price * sale.qty
+        return sale.gross_profit()
 
     def get_net_profit(self, sale):
-        return (sale.price - self.get_cost(sale)) * sale.qty
+        return sale.net_profit()
 
     def create(self, sale):
         purchase = sale['purchase']

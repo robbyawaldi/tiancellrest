@@ -13,6 +13,9 @@ class Item(models.Model):
     def stock(self):
         return sum(p.qty - p.sold() for p in self.purchases())
 
+    def currentpurchase(self):
+        return self.purchases()[0].id if self.stock() else None
+
     def __str__(self):
         return '%s / price:%d / stock:%d' % (self.name, self.price, self.stock())
     
@@ -56,6 +59,15 @@ class Sale(models.Model):
     price = models.FloatField()
     qty = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
+
+    def cost(self):
+        return self.purchase.cost
+
+    def gross_profit(self):
+        return self.price * self.qty
+
+    def net_profit(self):
+        return self.gross_profit() - (self.cost() * self.qty)
 
     def __str__(self):
         return '%s / %s / price:%d / qty:%d' % (
