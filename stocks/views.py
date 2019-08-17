@@ -16,3 +16,4 @@ class PurchaseViewSet(viewsets.ModelViewSet):
 class SaleViewSet(viewsets.ModelViewSet):
     serializer_class = SaleSerializer
     queryset = Sale.objects.all()
+    filterset_fields = ['date']
