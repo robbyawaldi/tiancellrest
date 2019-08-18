@@ -6,7 +6,7 @@ router = DefaultRouter()
 router.register(r'items', ItemViewSet)
 router.register(r'purchases', PurchaseViewSet)
 router.register(r'sales', SaleViewSet)
-router.register(r'sales-by-day', SaleByDayViewSet)
+router.register(r'report', SaleByDayViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
