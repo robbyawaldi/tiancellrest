@@ -18,8 +18,12 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class PurchaseSerializer(serializers.ModelSerializer):
+    item_name = serializers.SerializerMethodField()
     sold = serializers.SerializerMethodField()
     remaining = serializers.SerializerMethodField()
+
+    def get_item_name(self, purchase):
+        return purchase.item.name
 
     def get_sold(self, purchase):
         return purchase.sold()
@@ -29,7 +33,7 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Purchase
-        fields = ('id', 'item', 'cost', 'qty', 'sold', 'remaining', 'date')
+        fields = ('id', 'item','item_name', 'cost', 'qty', 'sold', 'remaining', 'date')
 
 
 class SaleSerializer(serializers.ModelSerializer):

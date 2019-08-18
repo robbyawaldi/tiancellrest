@@ -4,7 +4,7 @@ from django.contrib import admin
 from stocks.models import Item, Purchase, Sale
 from stocks.serializers import PurchaseSerializer
 
-def cetak_qr_code(modeladmin, request, queryset):
+def cetak_barcode(modeladmin, request, queryset):
     purchases = []
     for i in range(len(queryset)):
         purchase = Purchase.objects.get(id=queryset[i].id)
@@ -14,11 +14,11 @@ def cetak_qr_code(modeladmin, request, queryset):
     context = {
         'purchases': json.dumps(purchases),   
     }
-    return TemplateResponse(request,'stock/template_qr_code.html', context)
+    return TemplateResponse(request,'stock/template_barcode.html', context)
 
 class PurchaseAdmin(admin.ModelAdmin):  
     ordering = ['-date']
-    actions = [cetak_qr_code]
+    actions = [cetak_barcode]
 
 admin.site.register(Item)
 admin.site.register(Purchase, PurchaseAdmin)
