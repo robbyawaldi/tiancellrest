@@ -63,3 +63,13 @@ class SaleSerializer(serializers.ModelSerializer):
         model = Sale
         fields = ('id', 'purchase', 'cost', 'price', 'qty',
                   'gross_profit', 'net_profit', 'date')
+
+
+class SaleByDaySerializer(serializers.Serializer):
+    date = serializers.CharField(source='date__date')
+    cost = serializers.FloatField()
+    gross = serializers.FloatField()
+    net = serializers.SerializerMethodField()
+
+    def get_net(self, sale):
+        return sale['gross'] - sale['cost']

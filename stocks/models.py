@@ -60,7 +60,6 @@ class Sale(models.Model):
     price = models.FloatField()
     qty = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
-    cost = property(cost)
 
     def cost(self):
         return self.purchase.cost
