@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 
+
 class Item(models.Model):
     name = models.CharField(max_length=25)
     price = models.FloatField()
@@ -18,7 +19,7 @@ class Item(models.Model):
 
     def __str__(self):
         return '%s / price:%d / stock:%d' % (self.name, self.price, self.stock())
-    
+
     class Meta:
         ordering = ['name']
 
@@ -59,6 +60,7 @@ class Sale(models.Model):
     price = models.FloatField()
     qty = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
+    cost = property(cost)
 
     def cost(self):
         return self.purchase.cost
@@ -73,6 +75,6 @@ class Sale(models.Model):
         return '%s / %s / price:%d / qty:%d' % (
             self.date.strftime('%Y-%m-%d %H:%M'),
             self.purchase.item.name,
-            self.price, 
+            self.price,
             self.qty
         )
