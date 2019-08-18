@@ -5,8 +5,8 @@ from stocks.views import ItemViewSet, PurchaseViewSet, SaleViewSet, SaleByDayVie
 router = DefaultRouter()
 router.register(r'items', ItemViewSet)
 router.register(r'purchases', PurchaseViewSet)
-router.register(r'sales', SaleViewSet)
 router.register(r'report', SaleByDayViewSet)
+router.register(r'sales', SaleViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
