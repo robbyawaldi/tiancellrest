@@ -33,19 +33,6 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
 
 class SaleSerializer(serializers.ModelSerializer):
-    cost = serializers.SerializerMethodField()
-    gross_profit = serializers.SerializerMethodField()
-    net_profit = serializers.SerializerMethodField()
-
-    def get_cost(self, sale):
-        return sale.cost()
-
-    def get_gross_profit(self, sale):
-        return sale.gross_profit()
-
-    def get_net_profit(self, sale):
-        return sale.net_profit()
-
     def create(self, sale):
         purchase = sale['purchase']
         if sale['qty'] <= purchase.remaining():
@@ -61,8 +48,7 @@ class SaleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sale
-        fields = ('id', 'purchase', 'cost', 'price', 'qty',
-                  'gross_profit', 'net_profit', 'date')
+        fields = ('id', 'purchase', 'price', 'qty', 'date')
 
 
 class SaleByDaySerializer(serializers.Serializer):
