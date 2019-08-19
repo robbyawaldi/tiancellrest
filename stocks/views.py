@@ -19,7 +19,7 @@ class PurchaseViewSet(viewsets.ModelViewSet):
 
 class SaleViewSet(viewsets.ModelViewSet):
     serializer_class = SaleSerializer
-    queryset = Sale.objects.all()
+    queryset = Sale.objects.all().order_by('-date')
     filter_class = SaleFilter
 
 
