@@ -77,3 +77,6 @@ class Sale(models.Model):
             self.price,
             self.qty
         )
+
+    class Meta:
+        ordering = ['-date']
