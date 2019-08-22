@@ -33,6 +33,9 @@ class Purchase(models.Model):
     qty = models.IntegerField()
     date = models.DateField(auto_now_add=True)
 
+    def item_name(self):
+        return self.item.name
+
     def sold(self):
         sales = Sale.objects.filter(purchase=self)
         return sum(sale.qty for sale in sales)

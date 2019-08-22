@@ -23,7 +23,7 @@ class PurchaseSerializer(serializers.ModelSerializer):
     remaining = serializers.SerializerMethodField()
 
     def get_item_name(self, purchase):
-        return purchase.item.name
+        return purchase.item_name()
 
     def get_sold(self, purchase):
         return purchase.sold()
@@ -37,6 +37,11 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
 
 class SaleSerializer(serializers.ModelSerializer):
+    item_name = serializers.SerializerMethodField()
+
+    def get_item_name(self, sale):
+        return sale.purchase.item_name()
+
     def create(self, sale):
         purchase = sale['purchase']
         if sale['qty'] <= purchase.remaining():
@@ -52,7 +57,7 @@ class SaleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sale
-        fields = ('id', 'purchase', 'price', 'qty', 'date')
+        fields = ('id', 'purchase', 'item_name', 'price', 'qty', 'date')
 
 
 class SaleByDaySerializer(serializers.Serializer):
