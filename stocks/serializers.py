@@ -37,10 +37,14 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
 
 class SaleSerializer(serializers.ModelSerializer):
-    item_name = serializers.SerializerMethodField()
+    item_name = serializers.SerializerMethodField(read_only=True)
 
     def get_item_name(self, sale):
-        return sale.purchase.item_name()
+        if isinstance(sale, dict):
+            return sale['purchase'].item_name()
+        else:
+            return sale.purchase.item_name()
+            
 
     def create(self, sale):
         purchase = sale['purchase']
