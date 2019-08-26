@@ -1,4 +1,4 @@
-import json
+from json import dumps
 from django.template.response import TemplateResponse
 from django.contrib import admin
 from rangefilter.filter import DateTimeRangeFilter, DateRangeFilter
@@ -11,7 +11,7 @@ def cetak_barcode(modeladmin, request, queryset):
     serializer = PurchaseSerializer(queryset, many=True)
 
     context = {
-        'purchases': json.dumps(serializer.data),
+        'purchases': dumps(serializer.data),
     }
 
     return TemplateResponse(request, 'stock/template_barcode.html', context)
@@ -27,8 +27,8 @@ def tampilkan_laporan(modeladmin, request, queryset):
     serializerByDay = SaleByDaySerializer(querysetByDay, many=True)
 
     context = {
-        'sales': json.dumps(serializer.data),
-        'salesByDay': json.dumps(serializerByDay.data)
+        'sales': dumps(serializer.data),
+        'salesByDay': dumps(serializerByDay.data)
     }
 
     return TemplateResponse(request, 'stock/template_report.html', context)

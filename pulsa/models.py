@@ -33,9 +33,11 @@ class Transaction(models.Model):
     )
     cost = models.FloatField()
     price = models.FloatField()
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s %s / cost:%d / price:%d' % (
+        return '%s / %s %s / cost:%d / price:%d' % (
+            self.date.strftime('%d-%m-%Y %H:%M'),
             self.nominal.provider,
             self.nominal.name,
             self.cost,
