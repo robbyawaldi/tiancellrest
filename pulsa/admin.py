@@ -1,3 +1,6 @@
 from django.contrib import admin
+from pulsa.models import Provider, Nominal, Transaction
 
-# Register your models here.
+admin.site.register(Provider)
+admin.site.register(Nominal)
+admin.site.register(Transaction)
