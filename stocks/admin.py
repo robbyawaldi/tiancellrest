@@ -21,7 +21,7 @@ def tampilkan_laporan(modeladmin, request, queryset):
     serializer = SaleSerializer(queryset, many=True)
     startDate = queryset[len(queryset) - 1].date
     endDate = queryset[0].date
-    querysetByDay = queryset.reverse().values('date__date').annotate(
+    querysetByDay = Sale.objects.filter(date__range=[startDate,endDate]).values('date__date').annotate(
         gross=Sum(F('price') * F('qty'), output_field=FloatField()),
         cost=Sum(F('purchase__cost') * F('qty'), output_field=FloatField()))
     serializerByDay = SaleByDaySerializer(querysetByDay, many=True)

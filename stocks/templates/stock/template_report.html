@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class="chart-container mt-2" style="position: relative; height:auto; width:auto">
-                <canvas id="areaChart"></canvas>
+              <canvas id="areaChart"></canvas>
             </div>
           </div>
         </div>
@@ -99,24 +99,25 @@
         labels: dates,
         datasets: [
           {
-            label: 'Net',
-            data: netList,
-            backgroundColor: 'rgba(255, 99, 132, 1)',
-            // borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-          },
-          {
             label: 'Cost',
             data: costs,
-            backgroundColor: 'rgba(255, 206, 86, 1)',
-            // borderColor: 'rgba(255, 206, 86, 1)',
+            backgroundColor: 'rgba(255, 206, 86, 0.5)',
+            borderColor: 'rgba(255, 206, 86, 1)',
             borderWidth: 1
           },
           {
             label: 'Gross',
             data: grossList,
-            backgroundColor: 'rgba(54, 162, 235, 1)',
-            // borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            fill: '-1',
+            borderWidth: 1
+          },
+          {
+            label: 'Net',
+            data: netList,
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1
           },
         ]
@@ -132,6 +133,35 @@
         },
         legend: {
           position: 'bottom',
+        },
+        tooltips: {
+          callbacks: {
+            label: function (t, d) {
+              var xLabel = d.datasets[t.datasetIndex].label;
+              var yLabel = t.yLabel >= 1000 ? 'Rp' + t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : '$' + t.yLabel;
+              return xLabel + ': ' + yLabel;
+            }
+          }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              callback: function (value, index, values) {
+                yLabel = value >= 1000 ? 'Rp' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : 'Rp' + value;
+                return yLabel;
+              }
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              callback: function (value, index, values) {
+                var day = value.substr(8, 2);
+                var month = value.substr(5, 2);
+                month = month.substr(0, 1) == '0' ? month.substr(1,1) : month;
+                return day + '/' + month;
+              }
+            }
+          }],
         },
       }
     });
