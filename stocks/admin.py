@@ -45,6 +45,7 @@ class PurchaseAdmin(admin.ModelAdmin):
 
 
 class SaleAdmin(admin.ModelAdmin):
+    ordering = ['-date']
     list_filter = (
         ('date', DateTimeRangeFilter),
         'purchase__item__name',
