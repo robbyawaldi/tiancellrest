@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rangefilter',
     'stocks',
     'services',
+    'pulsa',
 ]
 
 MIDDLEWARE = [
