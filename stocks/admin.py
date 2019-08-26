@@ -3,20 +3,33 @@ from django.template.response import TemplateResponse
 from django.contrib import admin
 from rangefilter.filter import DateTimeRangeFilter, DateRangeFilter
 from stocks.models import Item, Purchase, Sale
-from stocks.serializers import PurchaseSerializer
+from stocks.serializers import PurchaseSerializer, SaleSerializer, SaleByDaySerializer
+from django.db.models import Sum, F, FloatField
 
 
 def cetak_barcode(modeladmin, request, queryset):
-    purchases = []
-    for i in range(len(queryset)):
-        purchase = Purchase.objects.get(id=queryset[i].id)
-        serializer = PurchaseSerializer(purchase, context={'request': request})
-        purchases.append(serializer.data)
+    serializer = PurchaseSerializer(queryset, many=True)
 
     context = {
-        'purchases': json.dumps(purchases),
+        'purchases': json.dumps(serializer.data),
     }
+
     return TemplateResponse(request, 'stock/template_barcode.html', context)
+
+
+def tampilkan_laporan(modeladmin, request, queryset):
+    serializer = SaleSerializer(queryset, many=True)
+    querysetByDay = Sale.objects.filter(date__month=int(queryset[0].date.month)).values('date__date').annotate(
+        gross=Sum(F('price') * F('qty'), output_field=FloatField()),
+        cost=Sum(F('purchase__cost') * F('qty'), output_field=FloatField()))
+    serializerByDay = SaleByDaySerializer(querysetByDay, many=True)
+
+    context = {
+        'sales': json.dumps(serializer.data),
+        'salesByDay': json.dumps(serializerByDay.data)
+    }
+
+    return TemplateResponse(request, 'stock/template_report.html', context)
 
 
 class PurchaseAdmin(admin.ModelAdmin):
@@ -35,6 +48,7 @@ class SaleAdmin(admin.ModelAdmin):
         'purchase__item__name',
     )
     list_per_page = 1000
+    actions = [tampilkan_laporan]
 
 
 admin.site.register(Item)
