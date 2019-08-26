@@ -19,7 +19,9 @@ def cetak_barcode(modeladmin, request, queryset):
 
 def tampilkan_laporan(modeladmin, request, queryset):
     serializer = SaleSerializer(queryset, many=True)
-    querysetByDay = Sale.objects.filter(date__month=int(queryset[0].date.month)).values('date__date').annotate(
+    startDate = queryset[len(queryset) - 1].date
+    endDate = queryset[0].date
+    querysetByDay = queryset.reverse().values('date__date').annotate(
         gross=Sum(F('price') * F('qty'), output_field=FloatField()),
         cost=Sum(F('purchase__cost') * F('qty'), output_field=FloatField()))
     serializerByDay = SaleByDaySerializer(querysetByDay, many=True)

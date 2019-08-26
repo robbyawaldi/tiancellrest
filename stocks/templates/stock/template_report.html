@@ -9,43 +9,41 @@
   <title>Laporan</title>
   <link rel="stylesheet" href="{% static 'report/css/element.css' %}">
   <link rel="stylesheet" href="{% static 'report/css/layout.css' %}">
+  <link rel="stylesheet" href="{% static 'report/css/Chart.min.css' %}">
 </head>
 
 <body>
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper">
-      <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="p-4 border-bottom bg-light">
-                  <h4 class="card-title mb-0">Laporan Penjualan Barang</h4>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col text-center" style="border-right: 1px solid lightgray;">
-                      <h3 class="mb-0 font-weight-medium" id="cost"></h3>
-                      <h6 class="text-muted">Cost</h6>
-                    </div>
-                    <div class="col text-center" style="border-right: 1px solid lightgray;">
-                      <h3 class="mb-0 font-weight-medium" id="gross"></h3>
-                      <h6 class="text-muted">Gross Profit</h6>
-                    </div>
-                    <div class="col text-center">
-                      <h3 class="mb-0 font-weight-medium" id="net"></h3>
-                      <h6 class="text-muted">Net Profit</h6>
-                    </div>
-                  </div>
-                  <canvas class="mt-2" id="areaChart" style="height:250px"></canvas>
-                </div>
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="p-4 border-bottom bg-light">
+            <h4 class="card-title mb-0">Laporan Penjualan Barang</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col text-center" style="border-right: 1px solid lightgray;">
+                <h3 class="mb-0 font-weight-medium" id="cost"></h3>
+                <h6 class="text-muted">Cost</h6>
               </div>
+              <div class="col text-center" style="border-right: 1px solid lightgray;">
+                <h3 class="mb-0 font-weight-medium" id="gross"></h3>
+                <h6 class="text-muted">Gross Profit</h6>
+              </div>
+              <div class="col text-center">
+                <h3 class="mb-0 font-weight-medium" id="net"></h3>
+                <h6 class="text-muted">Net Profit</h6>
+              </div>
+            </div>
+            <div class="chart-container mt-2" style="position: relative; height:auto; width:auto">
+                <canvas id="areaChart"></canvas>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="{% static 'report/js/Chart.min.js' %}"></script>
   <script>
