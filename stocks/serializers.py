@@ -39,12 +39,17 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
 class SaleSerializer(serializers.ModelSerializer):
     item_name = serializers.SerializerMethodField(read_only=True)
+    cost = serializers.SerializerMethodField(read_only=True)
     gross_profit = serializers.SerializerMethodField(read_only=True)
     net_profit = serializers.SerializerMethodField(read_only=True)
 
     def get_item_name(self, sale):
         if not isinstance(sale, dict):
             return sale.purchase.item_name()
+
+    def get_cost(self, sale):
+        if not isinstance(sale, dict):
+            return sale.cost()
 
     def get_gross_profit(self, sale):
         if not isinstance(sale, dict):
@@ -70,7 +75,7 @@ class SaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
         fields = ('id', 'purchase', 'item_name', 'price',
-                  'qty', 'gross_profit', 'net_profit', 'date')
+                  'qty', 'cost', 'gross_profit', 'net_profit', 'date')
 
 
 class SaleByDaySerializer(serializers.Serializer):
