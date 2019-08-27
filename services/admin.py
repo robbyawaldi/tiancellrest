@@ -8,9 +8,7 @@ from rangefilter.filter import DateTimeRangeFilter
 
 def tampilkan_laporan(modeladmin, request, queryset):
     serializer = ServiceSerializer(queryset, many=True)
-    startDate = queryset[len(queryset) - 1].date
-    endDate = queryset[0].date
-    querysetByDay = Service.objects.filter(date__range=[startDate, endDate]).values('date__date').annotate(
+    querysetByDay = Service.objects.filter(id__in=queryset).values('date__date').annotate(
         cost=Sum('cost'),
         gross=Sum('price'),
     )

@@ -8,9 +8,7 @@ from django.db.models import Sum
 
 def tampilkan_laporan(modeladmin, request, queryset):
     serializer = TransactionSerializer(queryset, many=True)
-    startDate = queryset[len(queryset) - 1].date
-    endDate = queryset[0].date
-    querysetByDay = Transaction.objects.filter(date__range=[startDate, endDate]).values('date__date').annotate(
+    querysetByDay = Transaction.objects.filter(id__in=queryset).values('date__date').annotate(
         cost=Sum('cost'),
         gross=Sum('price'),
     )
