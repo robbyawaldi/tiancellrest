@@ -3,7 +3,7 @@ from django.template.response import TemplateResponse
 from django.contrib import admin
 from django.db.models import Sum
 from services.models import Service
-from services.serializers import ServiceSerializer
+from services.serializers import ServiceSerializer, ServiceByDaySerializer
 from rangefilter.filter import DateTimeRangeFilter
 
 def tampilkan_laporan(modeladmin, request, queryset):
@@ -14,9 +14,11 @@ def tampilkan_laporan(modeladmin, request, queryset):
         cost=Sum('cost'),
         gross=Sum('price'),
     )
+    serializerByDay = ServiceByDaySerializer(querysetByDay, many=True)
 
     context = {
         'services': dumps(serializer.data),
+        'servicesByDay' : dumps(serializerByDay.data)
     }
 
     return TemplateResponse(request, 'services/template_report.html', context)
