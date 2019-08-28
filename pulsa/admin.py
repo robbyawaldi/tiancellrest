@@ -21,14 +21,30 @@ def tampilkan_laporan(modeladmin, request, queryset):
 
     return TemplateResponse(request, 'pulsa/template_report.html', context)
 
+def custom_titled_filter(title):
+    class Wrapper(admin.FieldListFilter):
+        def __new__(cls, *args, **kwargs):
+            instance = admin.FieldListFilter.create(*args, **kwargs)
+            instance.title = title
+            return instance
+    return Wrapper
+
+class NominalAdmin(admin.ModelAdmin):
+    ordering = ['provider__name']
+    list_per_page = 1000
+    list_filter = (
+        ('provider__name', custom_titled_filter('provider')),
+    )
+
 class TransactionAdmin(admin.ModelAdmin):
     ordering = ['-date']
     list_filter = (
         ('date', DateTimeRangeFilter),
+        ('nominal__provider__name', custom_titled_filter('provider')),
     )
     list_per_page = 1000
     actions = [tampilkan_laporan]
 
 admin.site.register(Provider)
-admin.site.register(Nominal)
+admin.site.register(Nominal, NominalAdmin)
 admin.site.register(Transaction, TransactionAdmin)
