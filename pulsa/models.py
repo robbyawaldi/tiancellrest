@@ -11,11 +11,15 @@ class Provider(models.Model):
 class Nominal(models.Model):
     provider = models.ForeignKey(
         Provider,
+        related_name='nominals',
         on_delete=models.CASCADE
     )
     name = models.CharField(max_length=15)
     cost = models.FloatField()
     price = models.FloatField()
+
+    def provider_name(self):
+        return self.provider.name
 
     def __str__(self):
         return '%s %s / cost:%d / price:%d' % (

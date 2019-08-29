@@ -2,9 +2,18 @@ from json import dumps
 from django.contrib import admin
 from django.template.response import TemplateResponse
 from pulsa.models import Provider, Nominal, Transaction
-from pulsa.serializers import TransactionSerializer, TransactionByDaySerializer
+from pulsa.serializers import TransactionSerializer, TransactionByDaySerializer, ProviderSerializers
 from rangefilter.filter import DateTimeRangeFilter
 from django.db.models import Sum
+
+def cetak_barcode(modeladmin, request, queryset):
+    serializer = ProviderSerializers(queryset, many=True)
+
+    context = {
+        'providers': dumps(serializer.data),
+    }
+
+    return TemplateResponse(request, 'pulsa/template_barcode.html', context)
 
 def tampilkan_laporan(modeladmin, request, queryset):
     serializer = TransactionSerializer(queryset, many=True)
@@ -29,6 +38,9 @@ def custom_titled_filter(title):
             return instance
     return Wrapper
 
+class ProviderAdmin(admin.ModelAdmin):
+    actions = [cetak_barcode]
+
 class NominalAdmin(admin.ModelAdmin):
     ordering = ['provider__name']
     list_per_page = 1000
@@ -45,6 +57,6 @@ class TransactionAdmin(admin.ModelAdmin):
     list_per_page = 1000
     actions = [tampilkan_laporan]
 
-admin.site.register(Provider)
+admin.site.register(Provider, ProviderAdmin)
 admin.site.register(Nominal, NominalAdmin)
 admin.site.register(Transaction, TransactionAdmin)

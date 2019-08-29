@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Barcode</title>
+    <style>
+        @media print {
+            @page {
+                size: A4;
+                margin-top: 7mm;
+                margin-right: 6.5mm;
+                margin-left: 5mm;
+                margin-bottom: 100mm;
+            }
+        }
+
+        .label {
+            /* padding: 10%; */
+            /* text-align: center; */
+            float: left;
+            /* border-style: solid; */
+            /* border-width: 1px; */
+            /* border-radius: 5px; */
+        }
+
+        #label-list {
+            display: grid;
+            grid-template-columns: repeat(5, 50mm);
+            grid-template-rows: repeat(6, 24mm);
+            grid-column-gap: 3.5mm;
+            grid-row-gap: 2mm;
+        }
+
+        .name {
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="label-list"></div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+    <script>
+        var providers = JSON.parse('{{providers|safe}}');
+        console.log(providers);
+        var j = 0;
+        // $.each(nominals, function (key, nominal) {
+        //     $('#label-list').append(`
+        //             <div class="label">
+        //                 <div class="name">`+ nominal.provider_name + ` ` + nominal.name + `</div>
+        //                 <svg class="barcode" id="barcode` + j + `"></svg>
+        //             </div>
+        //         `);
+        //     JsBarcode("#barcode" + j, 'p'+nominal.id, {
+        //         width: 2,
+        //         height: 20,
+        //         displayValue: false
+        //     });
+        //     j++;
+        // });
+    </script>
+</body>
