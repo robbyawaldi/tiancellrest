@@ -9,16 +9,12 @@
         @media print {
             @page {
                 size: A4;
-                margin-top: 7mm;
-                margin-right: 6.5mm;
-                margin-left: 5mm;
-                margin-bottom: 100mm;
+                margin-bottom: 4in;
             }
         }
 
         .label {
             padding: 10%;
-            text-align: center;
             /* border-style: solid;
             border-width: 1px;
             border-radius: 5px; */
@@ -28,12 +24,8 @@
             display: grid;
             grid-template-columns: repeat(5, 37mm);
             grid-template-rows: repeat(6, 24mm);
-            grid-column-gap: 3.5mm;
+            grid-column-gap: 4.2mm;
             grid-row-gap: 2mm;
-        }
-
-        .name {
-            font-size: 10px;
         }
     </style>
 </head>
@@ -49,14 +41,14 @@
             for (let i = 0; i < purchase.qty; i++) {
                 $('#label-list').append(`
                     <div class="label">
-                        <div class="name">`+ purchase.item_name + `</div>
-                        <svg class="barcode" id="barcode` + j + `"></svg>
+                        <svg id="barcode` + j + `"></svg>
                     </div>
                 `);
                 JsBarcode("#barcode" + j, purchase.item, {
+                    text: purchase.item_name,
                     width: 2,
                     height: 20,
-                    displayValue: false
+                    fontSize: 11,
                 });
                 j++;
             }
