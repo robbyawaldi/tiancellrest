@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+admin.site.site_header = 'Tian Cell'
+admin.site.index_title = 'Adminsitration'
+admin.site.site_title = 'Home'   
+
 urlpatterns = [
     path('', admin.site.urls),
     path('api/stocks/', include('stocks.urls')),
