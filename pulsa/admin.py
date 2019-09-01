@@ -42,6 +42,17 @@ class ProviderAdmin(admin.ModelAdmin):
     actions = [cetak_barcode]
 
 class NominalAdmin(admin.ModelAdmin):
+    list_display = ('provider', 'nominal', 'Cost', 'Price')
+
+    def nominal(self, nominal):
+        return nominal.name
+
+    def Cost(self, nominal):
+        return 'Rp{:,.0f}'.format(nominal.cost).replace(',', '.')
+
+    def Price(self, nominal):
+        return 'Rp{:,.0f}'.format(nominal.price).replace(',', '.')
+
     ordering = ['provider__name']
     list_per_page = 1000
     list_filter = (
@@ -49,6 +60,22 @@ class NominalAdmin(admin.ModelAdmin):
     )
 
 class TransactionAdmin(admin.ModelAdmin):
+    list_display = ('provider', 'Nominal', 'Cost', 'Price', 'date')
+
+    def provider(self, transaction):
+        return transaction.nominal.provider
+
+    def Nominal(self, transaction):
+        return transaction.nominal.name
+
+    def Cost(self, transaction):
+        return 'Rp{:,.0f}'.format(transaction.cost).replace(',', '.')
+
+    def Price(self, transaction):
+        return 'Rp{:,.0f}'.format(transaction.price).replace(',', '.')
+
+
+
     ordering = ['-date']
     list_filter = (
         ('date', DateTimeRangeFilter),

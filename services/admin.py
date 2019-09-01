@@ -22,6 +22,14 @@ def tampilkan_laporan(modeladmin, request, queryset):
     return TemplateResponse(request, 'services/template_report.html', context)
 
 class ServiceAdmin(admin.ModelAdmin):
+    list_display = ('brand', 'type', 'Cost', 'Price', 'date')
+
+    def Cost(self, service):
+        return 'Rp{:,.0f}'.format(service.cost).replace(',', '.')
+
+    def Price(self, service):
+        return 'Rp{:,.0f}'.format(service.price).replace(',', '.')
+        
     ordering = ['-date']
     list_filter = (
         ('date', DateTimeRangeFilter),
