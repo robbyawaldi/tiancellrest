@@ -19,7 +19,7 @@
         var providers = JSON.parse('{{providers|safe}}');
         $.each(providers, function (i, provider) {
             $('#list').append(`
-            <div class="col-3 border">
+            <div class="col border">
                 <div id="`+i+`">
                     <h5>`+ provider.name+`</h5>
                 </div>
@@ -28,7 +28,7 @@
             $.each(provider.nominals, function(j, nominal) {
                 $('#'+i).append(`
                 <div class="row">
-                    <svg class="col mb-5" id="barcode`+nominal.id+`"><svg/>
+                    <svg class="col mb-4" id="barcode`+nominal.id+`"><svg/>
                 <div/>
                 `);
                 JsBarcode("#barcode" + nominal.id, "p"+nominal.id, {
