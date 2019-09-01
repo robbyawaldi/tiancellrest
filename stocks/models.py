@@ -47,11 +47,13 @@ class Purchase(models.Model):
         return self.sold() >= self.qty
 
     def __str__(self):
-        return '%s / %s / cost:%d / qty:%d' % (
+        return '%s / %s / price:%d /cost:%d / qty:%d / stock:%d' % (
             self.date.strftime('%d-%m-%Y'),
             self.item.name,
+            self.item.price,
             self.cost,
             self.qty,
+            self.item.stock()
         )
 
 

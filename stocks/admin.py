@@ -32,10 +32,38 @@ def tampilkan_laporan(modeladmin, request, queryset):
     return TemplateResponse(request, 'stock/template_report.html', context)
 
 
+def custom_titled_filter(title):
+    class Wrapper(admin.FieldListFilter):
+        def __new__(cls, *args, **kwargs):
+            instance = admin.FieldListFilter.create(*args, **kwargs)
+            instance.title = title
+            return instance
+    return Wrapper
+
+
+class ItemAdmin(admin.ModelAdmin):
+    list_display = ('name', 'Price', 'stock')
+
+    def Price(self, item):
+        return 'Rp{:,.0f}'.format(item.price).replace(',', '.')
+
+    def stock(self, item):
+        return item.stock()
+
+
 class PurchaseAdmin(admin.ModelAdmin):
+    list_display = ('item_name', 'Cost', 'qty', 'date')
+
+    def Cost(self, purchase):
+        return 'Rp{:,.0f}'.format(purchase.cost).replace(',', '.')
+
+    def item_name(self, purchase):
+        return purchase.item_name()
+
     ordering = ['-date']
     list_filter = (
         ('date', DateRangeFilter),
+        ('date', custom_titled_filter('group date')),
         'item__name',
     )
     list_per_page = 1000
@@ -43,6 +71,14 @@ class PurchaseAdmin(admin.ModelAdmin):
 
 
 class SaleAdmin(admin.ModelAdmin):
+    list_display = ('name','Price','qty', 'date')
+
+    def name(self, sale):
+        return sale.purchase.item_name()
+
+    def Price(self, sale):
+        return 'Rp{:,.0f}'.format(sale.price).replace(',', '.')
+
     ordering = ['-date']
     list_filter = (
         ('date', DateTimeRangeFilter),
@@ -52,6 +88,6 @@ class SaleAdmin(admin.ModelAdmin):
     actions = [tampilkan_laporan]
 
 
-admin.site.register(Item)
+admin.site.register(Item, ItemAdmin)
 admin.site.register(Purchase, PurchaseAdmin)
 admin.site.register(Sale, SaleAdmin)
