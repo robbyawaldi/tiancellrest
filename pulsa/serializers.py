@@ -11,7 +11,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 class NominalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Nominal
-        fields = ('id', 'name', 'price')
+        fields = ('id', 'name', 'cost', 'price')
 
 
 class ProviderSerializers(serializers.ModelSerializer):
