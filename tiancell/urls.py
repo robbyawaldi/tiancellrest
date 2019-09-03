@@ -24,5 +24,6 @@ urlpatterns = [
     path('', admin.site.urls),
     path('api/stocks/', include('stocks.urls')),
     path('api/services/', include('services.urls')),
+    path('api/pulsa/', include('pulsa.urls')),
     path('api-auth/', include('rest_framework.urls')),
 ]
