@@ -31,19 +31,19 @@ class Nominal(models.Model):
 
 
 class Transaction(models.Model):
+    number = models.CharField(max_length=15, default='000')
     nominal = models.ForeignKey(
         Nominal,
         on_delete=models.CASCADE
     )
-    cost = models.FloatField()
-    price = models.FloatField()
+    cost = models.FloatField(blank=True)
+    price = models.FloatField(blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        self.cost = self.nominal.cost
+        self.price = self.nominal.price
+        super(Transaction, self).save(*args, **kwargs)
+
     def __str__(self):
-        return '%s / %s %s / cost:%d / price:%d' % (
-            self.date.strftime('%d-%m-%Y %H:%M'),
-            self.nominal.provider,
-            self.nominal.name,
-            self.cost,
-            self.price,
-        )
+        return '%s / %s' % (self.number, self.nominal)

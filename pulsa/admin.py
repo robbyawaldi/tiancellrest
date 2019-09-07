@@ -6,6 +6,7 @@ from pulsa.serializers import TransactionSerializer, TransactionByDaySerializer,
 from rangefilter.filter import DateTimeRangeFilter
 from django.db.models import Sum
 
+
 def cetak_barcode(modeladmin, request, queryset):
     serializer = ProviderSerializers(queryset, many=True)
 
@@ -14,6 +15,7 @@ def cetak_barcode(modeladmin, request, queryset):
     }
 
     return TemplateResponse(request, 'pulsa/template_barcode.html', context)
+
 
 def tampilkan_laporan(modeladmin, request, queryset):
     serializer = TransactionSerializer(queryset, many=True)
@@ -30,6 +32,7 @@ def tampilkan_laporan(modeladmin, request, queryset):
 
     return TemplateResponse(request, 'pulsa/template_report.html', context)
 
+
 def custom_titled_filter(title):
     class Wrapper(admin.FieldListFilter):
         def __new__(cls, *args, **kwargs):
@@ -38,8 +41,10 @@ def custom_titled_filter(title):
             return instance
     return Wrapper
 
+
 class ProviderAdmin(admin.ModelAdmin):
     actions = [cetak_barcode]
+
 
 class NominalAdmin(admin.ModelAdmin):
     list_display = ('provider', 'nominal', 'Cost', 'Price')
@@ -59,8 +64,9 @@ class NominalAdmin(admin.ModelAdmin):
         ('provider__name', custom_titled_filter('provider')),
     )
 
+
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('provider', 'Nominal', 'Cost', 'Price', 'date')
+    list_display = ('number', 'provider', 'Nominal', 'Cost', 'Price', 'date')
 
     def provider(self, transaction):
         return transaction.nominal.provider
@@ -74,8 +80,6 @@ class TransactionAdmin(admin.ModelAdmin):
     def Price(self, transaction):
         return 'Rp{:,.0f}'.format(transaction.price).replace(',', '.')
 
-
-
     ordering = ['-date']
     list_filter = (
         ('date', DateTimeRangeFilter),
@@ -83,6 +87,7 @@ class TransactionAdmin(admin.ModelAdmin):
     )
     list_per_page = 1000
     actions = [tampilkan_laporan]
+
 
 admin.site.register(Provider, ProviderAdmin)
 admin.site.register(Nominal, NominalAdmin)
