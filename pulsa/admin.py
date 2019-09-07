@@ -58,7 +58,6 @@ class NominalAdmin(admin.ModelAdmin):
     def Price(self, nominal):
         return 'Rp{:,.0f}'.format(nominal.price).replace(',', '.')
 
-    ordering = ['provider__name']
     list_per_page = 1000
     list_filter = (
         ('provider__name', custom_titled_filter('provider')),
@@ -80,7 +79,6 @@ class TransactionAdmin(admin.ModelAdmin):
     def Price(self, transaction):
         return 'Rp{:,.0f}'.format(transaction.price).replace(',', '.')
 
-    ordering = ['-date']
     list_filter = (
         ('date', DateTimeRangeFilter),
         ('nominal__provider__name', custom_titled_filter('provider')),

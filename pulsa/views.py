@@ -15,3 +15,8 @@ class NominalViewSet(viewsets.ModelViewSet):
 class TransactionViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all()
+
+
+class LatestTransactionViewSet(viewsets.ModelViewSet):
+    serializer_class = TransactionSerializer
+    queryset = Transaction.objects.all()[:1]
