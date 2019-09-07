@@ -60,7 +60,6 @@ class PurchaseAdmin(admin.ModelAdmin):
     def item_name(self, purchase):
         return purchase.item_name()
 
-    ordering = ['-date']
     list_filter = (
         ('date', DateRangeFilter),
         ('date', custom_titled_filter('group date')),
@@ -71,7 +70,7 @@ class PurchaseAdmin(admin.ModelAdmin):
 
 
 class SaleAdmin(admin.ModelAdmin):
-    list_display = ('name','Price','qty', 'date')
+    list_display = ('name', 'Price', 'qty', 'date')
 
     def name(self, sale):
         return sale.purchase.item_name()
@@ -79,7 +78,6 @@ class SaleAdmin(admin.ModelAdmin):
     def Price(self, sale):
         return 'Rp{:,.0f}'.format(sale.price).replace(',', '.')
 
-    ordering = ['-date']
     list_filter = (
         ('date', DateTimeRangeFilter),
         'purchase__item__name',

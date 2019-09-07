@@ -47,6 +47,3 @@ class Transaction(models.Model):
 
     def __str__(self):
         return '%s / %s' % (self.number, self.nominal)
-
-    class Meta:
-        ordering = ['-date']

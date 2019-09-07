@@ -19,4 +19,4 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
 class LatestTransactionViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
-    queryset = Transaction.objects.all()[:1]
+    queryset = Transaction.objects.all().order_by('-date')[:1]

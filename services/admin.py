@@ -6,6 +6,7 @@ from services.models import Service
 from services.serializers import ServiceSerializer, ServiceByDaySerializer
 from rangefilter.filter import DateTimeRangeFilter
 
+
 def tampilkan_laporan(modeladmin, request, queryset):
     serializer = ServiceSerializer(queryset, many=True)
     querysetByDay = Service.objects.filter(id__in=queryset).values('date__date').annotate(
@@ -16,10 +17,11 @@ def tampilkan_laporan(modeladmin, request, queryset):
 
     context = {
         'services': dumps(serializer.data),
-        'servicesByDay' : dumps(serializerByDay.data)
+        'servicesByDay': dumps(serializerByDay.data)
     }
 
     return TemplateResponse(request, 'services/template_report.html', context)
+
 
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('brand', 'type', 'Cost', 'Price', 'date')
@@ -29,7 +31,7 @@ class ServiceAdmin(admin.ModelAdmin):
 
     def Price(self, service):
         return 'Rp{:,.0f}'.format(service.price).replace(',', '.')
-        
+
     ordering = ['-date']
     list_filter = (
         ('date', DateTimeRangeFilter),
@@ -37,5 +39,5 @@ class ServiceAdmin(admin.ModelAdmin):
     list_per_page = 1000
     actions = [tampilkan_laporan]
 
-admin.site.register(Service, ServiceAdmin)
 
+admin.site.register(Service, ServiceAdmin)
