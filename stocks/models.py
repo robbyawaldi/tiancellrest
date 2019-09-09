@@ -62,18 +62,22 @@ class Sale(models.Model):
         Purchase,
         on_delete=models.CASCADE
     )
-    price = models.FloatField()
+    price = models.FloatField(blank=True)
     qty = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        self.price = self.purchase.item.price
+        super(Sale, self).save(*args, **kwargs)
+
     def cost(self):
-        return self.purchase.cost
+        return self.purchase.cost * self.qty
 
     def gross_profit(self):
         return self.price * self.qty
 
     def net_profit(self):
-        return self.gross_profit() - (self.cost() * self.qty)
+        return self.gross_profit() - self.cost()
 
     def __str__(self):
         return '%s / %s / price:%d / qty:%d' % (
